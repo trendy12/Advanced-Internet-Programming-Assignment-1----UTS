@@ -1,0 +1,47 @@
+Please refer to readme.html for detail plain documentation.
+
+Student ID: xxxxxxx             Student Name: xxxxx
+UTS AIP Assignment 1 Documentation
+ 
+1.       Installation
+This project uses only HTTP Basic Authentication that requires special set ups in the weblogic console. Except setting up HTTP Basic Authentication, all you need to do is deploy the war file into the weblogic console.
+ 
+Set up the HTTP Basic Authentication:
+Please follow the instructions in url: https://learn.it.uts.edu.au/aip/enrolled/04-jsp/lab-authentication-jsp.shtml create the ¡°hellousers¡± groups and you can pick any user name and password that you like.
+ 
+2.       Design Concept
+2.1. Database
+See figure 1.
+Figure 1
+
+
+Except three tables that already in the database (Catalog, Category and Catalog_categories), I designed other 4 tables to store the order information, customer information,address information and the product quantity of each order.
+ 
+Address: Stores the address information. Addid is generated automatically and is the primary key. Each customer in Customer table connects to each address via the addid column.
+ 
+Customer: Stores the customer information. Address of each customer is stored via the addid that link to address table. Cusid is generated automatically and is the primary key. Each order in Ordermain table connects to each address via the cusid column.
+ 
+Ordermain: Main table to store the order information. Ordid is the primary key and is generated automatically. Customer of each order is stored in customer table and connected to order via the cusid key.
+ 
+Orderpro: This table shows the relationship between each order and the products under this order. It shows the products id (code) and the quantity that ordered.
+ 
+ 
+2.2. Java Design
+2.2.1.        Beans:
+Address, Categories, Customer and Order are just normal java Beans. AdminOrderListInfo is used for the admin show order list page. Building this java bean can make it easier to pass the data from different classes.
+ 
+And a quantity field is defined in Product java bean. So it is easier to pass the quantity of each product of every order in the order processing page.
+ 
+2.2.2.        Servlets:
+AdminList is used for showing the order list to the administrator.
+AdminOrderShow shows individual order information.
+AdminUpdateOrder contains the functions to update the database when the quantity or statuses of an order are changed in the individual order show page.
+CategoryProducts shows products under a certain category.
+ListCat shows all the categories.
+ProductShow shows the information about a single product.
+PurchaseEnterInfo is the shopping cart check out part. It gets customer information and generates the order and finishes the database insert.
+ShoppingCart is the shopping cart part. It shows the products in the shopping cart and allows you to change the products or the quantity.
+ViewOrder is for customer checking orders when they enter the order id and surname.
+ 
+2.3. Architecture
+It is a basic MVC mode. Javabean, java servlet and jsp are used for this architecture. Database connection is stored in the java bean Dataconn. And all the connections that requires database connection use Dataconn to complete. All the servlets take care of the business logic and website processing logic. Jsp are just for display the user interfaces.
